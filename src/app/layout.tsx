@@ -3,11 +3,10 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import Link from "next/link";
-import { CalendarDots, Fingerprint, GearSix, Headset, Kanban } from "@phosphor-icons/react/dist/ssr";
+import { Fingerprint } from "@phosphor-icons/react/dist/ssr";
 
-import { usePathname } from 'next/navigation';
+
 import { ActiveLink } from "@/components/ActiveLink";
-
 
 
 
