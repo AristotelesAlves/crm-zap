@@ -8,8 +8,6 @@ import { Fingerprint } from "@phosphor-icons/react/dist/ssr";
 
 import { ActiveLink } from "@/components/ActiveLink";
 
-
-
 export const metadata: Metadata = {
   title: "ZAP-ZAP",
   description: "Gerenciar chamados",
@@ -25,9 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased bg-azul flex `}
+        className={`antialiased h-screen bg-azul flex w-full overflow-auto`}
       >
-        <aside className=" flex flex-col justify-between p-2">
+        <aside className=" flex flex-col justify-between p-2 h-screen">
           <ul className=" text-white flex flex-col gap-2 w-full">
             <ActiveLink name="Conversas" nameIcon="Headset" router="conversas"/>
             <ActiveLink name="Kanban" nameIcon="Kanban" router="kanban"/>
@@ -43,7 +41,7 @@ export default function RootLayout({
             </Link>
           </h1>
         </aside>
-        <section className="w-full h-screen overflow-auto bg-white rounded-l-2xl p-2">
+        <section className="w-full flex-1 h-full overflow-hidden bg-[#f5f5f5] rounded-l-2xl">
           {children}
         </section>
       </body>
