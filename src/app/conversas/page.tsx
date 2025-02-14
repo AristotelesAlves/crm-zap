@@ -1,5 +1,5 @@
 "use client"
-import { CassetteTape, ChatTeardropDots, DotsThree, File, Funnel, Image, Lightning, MagnifyingGlass, Microphone, PaperPlaneTilt, Plus, Robot } from "@phosphor-icons/react/dist/ssr";
+import { CassetteTape, ChatTeardropDots, File, Funnel, Image, MagnifyingGlass, Microphone, PaperPlaneTilt, Plus, Robot } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 
 export default function Home() {

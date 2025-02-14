@@ -1,4 +1,3 @@
-import { Barricade } from "@phosphor-icons/react/dist/ssr";
 
 export default function Page(){
     return(
