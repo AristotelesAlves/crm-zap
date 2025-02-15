@@ -1,18 +1,58 @@
 "use client"
-import { CassetteTape, ChatTeardropDots, File, Funnel, Image, MagnifyingGlass, Microphone, PaperPlaneTilt, Plus, Robot } from "@phosphor-icons/react/dist/ssr";
-import { useState } from "react";
+import { AddressBook, CassetteTape, ChatCircleDots, ChatTeardropDots, File, Funnel, ImageBroken, Kanban, MagnifyingGlass, Microphone, PaperPlaneTilt, Plus, Robot, Smiley, TagSimple, XCircle } from "@phosphor-icons/react/dist/ssr";
+import { useEffect, useState } from "react";
+import { exempleContacts } from "@/exemple/exempleContacts";
+import { chatHistory } from "@/exemple/batepapo";
+import ChatBox from "@/components/ChatBox/Index";
+
+
+
 
 export default function Home() {
 
   const [openTool, setOpenTool] = useState(false)
+  const [configChat, setConfigChat] = useState({
+    open: false,
+    name_or_number: '(88) 9 9144-2156',
+    url_profile:''
+  })
 
   const openOrCloseTool = () => {
     setOpenTool(!openTool)
   }
+
+  const openChat = (name_or_number: string, url_profile: string) => {
+    setConfigChat({
+      open: true,
+      name_or_number,
+      url_profile
+    })
+  }
+
+  const closeChat = () => {
+    setConfigChat({
+      open: false,
+      name_or_number: '',
+      url_profile: ''
+    })
+  }
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeChat();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
   
   return (
     <section className="flex h-full">
-      <div className="w-96 border-r p-2 flex flex-col gap-2 border-b">
+      <div className="w-96 min-w-96 border-r p-2 flex flex-col gap-2 border-b">
         <header className="flex flex-col gap-2">
           <h1 className="text-xl font-semibold py-1">
             Conversas
@@ -37,221 +77,63 @@ export default function Home() {
         </header>
         <div className=" w-full h-full flex-1  flex-col flex gap-2">
 
-          <div className="rounded-lg bg-white hover:shadow-lg hover:bg-opacity-80 w-full flex flex-col">
-            {/* <header className="flex w-full items-center justify-between border-b-2 border-zinc-300 px-2">
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded-full bg-gray-200"></div>
-                    <span className="text-sm">
-                        Doido
-                    </span>
+          {exempleContacts.map((contact, index) => {
+            return (
+              <div onClick={() => openChat(contact.name_or_number, contact.url_profile)} key={Number(index)} className="cursor-pointer rounded-lg bg-white hover:shadow-lg hover:bg-opacity-80 w-full flex flex-col">
+                <div className="flex items-center gap-1 w-full border-b px-2">
+                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                  <p className="text-sm">
+                    {contact.status_priority}
+                  </p>
                 </div>
-                <button>
-                    <DotsThree size={25}/>
-                </button>
-            </header> */}
-            <div className="flex items-center gap-1 w-full border-b px-2">
-              <div className="w-3 h-3 rounded-full bg-green-400"></div>
-              <p className="text-sm">
-                Primeiro contato
-              </p>
-            </div>
-            <div className="w-full flex items-start p-2">
-                <div className="flex gap-2 item w-full flex-1 text-start">
-                    <img src='https://i.pinimg.com/736x/22/1a/3e/221a3e854dfabe2053e9a13731420dff.jpg' className="w-12 h-12 flex-1 rounded-full"/>
-                    <div className="w-full">
-                        <h2 className="font-semibold">
-                            ari
-                        </h2>
-                        <p className="w-36 text-nowrap text-sm text-zinc-600 overflow-hidden text-ellipsis">
-                            Boa noite, tudo bem ?
-                        </p>
+                <div className="w-full flex items-start p-2">
+                    <div className="flex gap-2 item w-full flex-1 text-start">
+                        <img src={contact.url_profile} className="w-12 h-12 flex-1 rounded-full"/>
+                        <div className="w-full">
+                            <h2 className="font-semibold">
+                                {contact.name_or_number}
+                            </h2>
+                            <p className="w-36 text-nowrap text-sm text-zinc-600 overflow-hidden text-ellipsis">
+                                {contact.last_message}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div className="flex flex-col items-end pl-2 gap-1">
-                    <span className="text-sm">
-                        10:30
-                    </span>
-                    <div className="w-5 h-5 flex items-center justify-center rounded-full bg-green-600"> 
-                        <span className="text-white font-semibold text-xs text-center">
-                            2
+                    <div className="flex flex-col items-end pl-2 gap-1">
+                        <span className="text-sm">
+                            {contact.time_last_message}
                         </span>
+                        {contact.total_message > 0 && (
+                          <div className="w-5 h-5 flex items-center justify-center rounded-full bg-green-600"> 
+                              <span className="text-white font-semibold text-xs text-center">
+                                  2
+                              </span>
+                          </div>
+                        )}
                     </div>
                 </div>
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-white hover:shadow-lg hover:bg-opacity-80 w-full flex flex-col">
-            {/* <header className="flex w-full items-center justify-between border-b-2 border-zinc-300 px-2">
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded-full bg-gray-200"></div>
-                    <span className="text-sm">
-                        Doido
-                    </span>
-                </div>
-                <button>
-                    <DotsThree size={25}/>
-                </button>
-            </header> */}
-            <div className="flex items-center gap-1 w-full border-b px-2">
-              <div className="w-3 h-3 rounded-full bg-green-400"></div>
-              <p className="text-sm">
-                Primeiro contato
-              </p>
-            </div>
-            <div className="w-full flex items-start p-2">
-                <div className="flex gap-2 item w-full flex-1 text-start">
-                    <img src='https://i.pinimg.com/736x/22/1a/3e/221a3e854dfabe2053e9a13731420dff.jpg' className="w-12 h-12 flex-1 rounded-full"/>
-                    <div className="w-full">
-                        <h2 className="font-semibold">
-                            ari
-                        </h2>
-                        <p className="w-36 text-nowrap text-sm text-zinc-600 overflow-hidden text-ellipsis">
-                            Boa noite, tudo bem ?
-                        </p>
-                    </div>
-                </div>
-                <div className="flex flex-col items-end pl-2 gap-1">
-                    <span className="text-sm">
-                        10:30
-                    </span>
-                    <div className="w-5 h-5 flex items-center justify-center rounded-full bg-green-600"> 
-                        <span className="text-white font-semibold text-xs text-center">
-                            2
-                        </span>
-                    </div>
-                </div>
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-white hover:shadow-lg hover:bg-opacity-80 w-full flex flex-col">
-            {/* <header className="flex w-full items-center justify-between border-b-2 border-zinc-300 px-2">
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded-full bg-gray-200"></div>
-                    <span className="text-sm">
-                        Doido
-                    </span>
-                </div>
-                <button>
-                    <DotsThree size={25}/>
-                </button>
-            </header> */}
-            <div className="flex items-center gap-1 w-full border-b px-2">
-              <div className="w-3 h-3 rounded-full bg-green-400"></div>
-              <p className="text-sm">
-                Primeiro contato
-              </p>
-            </div>
-            <div className="w-full flex items-start p-2">
-                <div className="flex gap-2 item w-full flex-1 text-start">
-                    <img src='https://i.pinimg.com/736x/22/1a/3e/221a3e854dfabe2053e9a13731420dff.jpg' className="w-12 h-12 flex-1 rounded-full"/>
-                    <div className="w-full">
-                        <h2 className="font-semibold">
-                            ari
-                        </h2>
-                        <p className="w-36 text-nowrap text-sm text-zinc-600 overflow-hidden text-ellipsis">
-                            Boa noite, tudo bem ?
-                        </p>
-                    </div>
-                </div>
-                <div className="flex flex-col items-end pl-2 gap-1">
-                    <span className="text-sm">
-                        10:30
-                    </span>
-                    <div className="w-5 h-5 flex items-center justify-center rounded-full bg-green-600"> 
-                        <span className="text-white font-semibold text-xs text-center">
-                            2
-                        </span>
-                    </div>
-                </div>
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-white hover:shadow-lg hover:bg-opacity-80 w-full flex flex-col">
-            {/* <header className="flex w-full items-center justify-between border-b-2 border-zinc-300 px-2">
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded-full bg-gray-200"></div>
-                    <span className="text-sm">
-                        Doido
-                    </span>
-                </div>
-                <button>
-                    <DotsThree size={25}/>
-                </button>
-            </header> */}
-            <div className="flex items-center gap-1 w-full border-b px-2">
-              <div className="w-3 h-3 rounded-full bg-green-400"></div>
-              <p className="text-sm">
-                Primeiro contato
-              </p>
-            </div>
-            <div className="w-full flex items-start p-2">
-                <div className="flex gap-2 item w-full flex-1 text-start">
-                    <img src='https://i.pinimg.com/736x/b6/ac/05/b6ac05d713fc6ac4481a2f8e3aace8dc.jpg' className="w-12 h-12 flex-1 rounded-full"/>
-                    <div className="w-full">
-                        <h2 className="font-semibold">
-                            Clienton
-                        </h2>
-                        <p className="w-36 text-nowrap text-sm text-zinc-600 overflow-hidden text-ellipsis">
-                            Gostaria de uma demonstração
-                        </p>
-                    </div>
-                </div>
-                <div className="flex flex-col items-end pl-2 gap-1">
-                    <span className="text-sm">
-                        10:30
-                    </span>
-                    <div className="w-5 h-5 flex items-center justify-center rounded-full bg-green-600"> 
-                        <span className="text-white font-semibold text-xs text-center">
-                            2
-                        </span>
-                    </div>
-                </div>
-            </div>
-          </div>
-
+              </div>
+            )
+          })}
         </div>
       </div>
-      <div className="flex flex-col w-full">
-        <div className="flex-1 relative">
-          <div className={`flex-col gap-2 rounded-md overflow-hidden bg-white absolute bottom-4 left-2 ${openTool ? 'flex' : 'hidden'} duration-200 transition-all`}>
-              <button className="flex items-center gap-1 p-1 bg-white hover:bg-zinc-200">
-                <File weight="fill" size={20}/>
-                Documentos
-              </button>
-              <button className="flex items-center gap-1 p-1 bg-white hover:bg-zinc-200">
-                <Image weight="fill" size={20}/>
-                Imagens
-              </button>
-              <button className="flex items-center gap-1 p-1 bg-white hover:bg-zinc-200">
-                <ChatTeardropDots weight="fill" size={20}/>
-                Mensagens
-              </button>
-              <button className="flex items-center gap-1 p-1 bg-white hover:bg-zinc-200">
-                <CassetteTape weight="fill" size={20}/>
-                Audios
-              </button>
-              <button className="flex items-center gap-1 p-1 bg-white hover:bg-zinc-200">
-                <Robot weight="fill" size={20}/>
-                DeepSeek
-              </button>
-            </div>
-        </div>
-        <div className="flex gap-2 items-center p-2 bg-white w-full">
-          <div className="relative">
-            <button className={`p-2 rounded-lg transition-colors duration-200 ${openTool ? 'bg-azul text-white hover:bg-opacity-95 font-semibold' : 'hover:bg-zinc-100 '}`}
-              onClick={openOrCloseTool}>
-              <Plus className={`${openTool ? 'rotate-[135deg]' : null} duration-200 transition-transform`} size={25}/>
-            </button>
+      {
+        configChat.open ? 
+            <ChatBox
+              name_or_number={configChat.name_or_number} 
+              url_profile={configChat.url_profile} 
+              messages={chatHistory[configChat.name_or_number as keyof typeof chatHistory]}
+              closed={closeChat}
+            />
+         : (
+          <div className="flex items-center justify-center flex-col  w-full relative">
+            <ChatCircleDots size={150} />
+            <h1 className="z-10 font-semibold text-2xl">
+              Selecione uma conversa
+            </h1>
           </div>
-          <input onClick={() => setOpenTool(false)} className="w-full rounded-lg outline-none p-2 bg-zinc-100 border-none border-white" placeholder="Digite uma mensagem" type="text" name="" id="" />
-          <button className="p-2 rounded-lg hover:bg-zinc-100 transition-colors duration-150">
-            <Microphone size={25}/>
-          </button>
-          <button className="p-2 rounded-lg bg-azul text-white">
-            <PaperPlaneTilt size={25  }/>
-          </button>
-        </div>
-      </div>
+        )
+      }
+
     </section>
   );
 }

@@ -1,8 +1,7 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { usePathname } from 'next/navigation';
-import Link, { LinkProps } from 'next/link';
 import { CalendarDots, GearSix, Headset, Kanban } from '@phosphor-icons/react/dist/ssr';
 
 type ActiveLinkProps = {
