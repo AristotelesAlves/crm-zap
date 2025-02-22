@@ -12,7 +12,7 @@ interface Iprops {
 export default function Message(props: Iprops){
     return (
         <div className={`flex items-start gap-2 ${props.from == 'my' ? 'flex-row-reverse' : null }`}>
-            <Image width={30} height={30} src={props.url_profile} alt="" className="rounded-full" />
+            {/* <Image width={30} height={30} src={props.url_profile} alt="" className="rounded-full" /> */}
             <div  className={`
               ${props.from == 'my' ? 'bg-azul text-white rounded-l-xl rounded-br-xl' : 'bg-white rounded-r-xl rounded-bl-xl' }
                p-2 shadow-md text-left max-w-72 w-fit flex flex-col mt-1 gap-1

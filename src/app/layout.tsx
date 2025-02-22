@@ -30,6 +30,7 @@ export default function RootLayout({
             <ActiveLink name="Conversas" nameIcon="Headset" router="conversas"/>
             <ActiveLink name="Kanban" nameIcon="Kanban" router="kanban"/>
             <ActiveLink name="Agenda" nameIcon="CalendarDots" router="agenda"/>
+            <ActiveLink name="Contatos" nameIcon="AddressBook" router="Contatos"/>
             <ActiveLink name="Configuração" nameIcon="GearSix" router="configuracao"/>
           </ul>
           <h1 className="text-white text-xl w-full p-2 border-t border-white">

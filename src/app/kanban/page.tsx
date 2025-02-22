@@ -1,5 +1,5 @@
-import Colum from "@/components/Kanban/Colum";
-import { exemplekanban } from "@/exemple/exemplekanban";
+import Kanban from "@/components/Kanban";
+
 
 export default function Home() {
     return (
@@ -7,7 +7,7 @@ export default function Home() {
         <h1 className="text-2xl font-semibold pb-2">
           Kanban CRM
         </h1>
-        <Colum colums={exemplekanban}/>
+          <Kanban/>
       </div>
     );
   }

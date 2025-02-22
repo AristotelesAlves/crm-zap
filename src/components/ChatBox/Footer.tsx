@@ -2,8 +2,6 @@
 import { CassetteTape, ChatTeardropDots, File, ImageBroken, Microphone, PaperPlaneTilt, Plus, Robot } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 
-
-
 export default function FooterChat(){
 
     const [isOpenTool, setIsOpenTool] = useState(false)
@@ -13,7 +11,7 @@ export default function FooterChat(){
     }
 
     return (
-        <div className="flex gap-2 items-center p-2 bg-w  hite w-full">
+        <div className="flex gap-2 items-center p-2 bg-w  hite w-full bg-white shadow-xl">
             <div className="relative">
                 <div className={`flex-col gap-2 p-1 rounded-md overflow-hidden shadow-xl bg-white absolute bottom-16 left-0 ${isOpenTool ? 'flex' : 'hidden'} duration-200 transition-all`}>
                     <button 

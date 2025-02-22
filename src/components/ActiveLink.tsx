@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { CalendarDots, GearSix, Headset, Kanban } from '@phosphor-icons/react/dist/ssr';
+import { AddressBook, CalendarDots, GearSix, Headset, Kanban } from '@phosphor-icons/react/dist/ssr';
 
 type ActiveLinkProps = {
   router: string,
   name: string,
-  nameIcon: 'Headset' | 'Kanban' | 'CalendarDots' | 'GearSix',
+  nameIcon: 'Headset' | 'Kanban' | 'CalendarDots' | 'GearSix' | 'AddressBook',
 };
 
 
@@ -19,7 +19,8 @@ export function ActiveLink(props: ActiveLinkProps) {
         Headset: <Headset size={18} className={isActive ? "text-white" : "text-black"}/>,
         Kanban: <Kanban size={18} className={isActive ? "text-white" : "text-black"}/>,
         CalendarDots: <CalendarDots size={18} className={isActive ? "text-white" : "text-black"}/>,
-        GearSix: <GearSix size={18} className={isActive ? "text-white" : "text-black"}/>
+        GearSix: <GearSix size={18} className={isActive ? "text-white" : "text-black"}/>,
+        AddressBook: <AddressBook size={18} className={isActive ? "text-white" : "text-black"}/>,
     }
 
   return (
