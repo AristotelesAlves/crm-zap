@@ -1,48 +1,41 @@
-import { DotsThree } from "@phosphor-icons/react/dist/ssr";
-import { CardInterface } from "./typeKanban";
+'use client'
+// src/components/Card.tsx
+import { FC } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
+export type CardType = {
+  id: string;
+  title: string;
+};
 
-interface Iprops {
-    card: CardInterface
-}
+const Card: FC<CardType> = ({ id, title }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
 
-export default function Card({card} : Iprops){
-    return (
-        <div className="rounded-lg bg-white shadow-lg">
-            <header className="flex items-center justify-between border-b-2 border-zinc-300 px-2">
-                <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 rounded-full bg-red-800"></div>
-                    <span className="text-sm">
-                        {card.status_priority}
-                    </span>
-                </div>
-                <button>
-                    <DotsThree size={25}/>
-                </button>
-            </header>
-            <div className="w-full flex items-start p-2">
-                <div className="flex gap-2 item w-full flex-1">
-                    <img src={card.url_profile} className="w-12 h-12 flex-1 rounded-full"/>
-                    <div className="w-full">
-                        <h2 className="font-semibold">
-                            {card.name_or_number}
-                        </h2>
-                        <p className="w-36 text-nowrap text-sm text-zinc-600 overflow-hidden text-ellipsis">
-                            {card.last_message}
-                        </p>
-                    </div>
-                </div>
-                <div className="flex flex-col items-end pl-2 gap-1">
-                    <span className="text-sm">
-                        {card.time_last_message}
-                    </span>
-                    <div className="w-5 h-5 flex items-center justify-center rounded-full bg-green-600"> 
-                        <span className="text-white font-semibold text-xs text-center">
-                            {card.total_message}
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+      className="p-4 bg-white shadow-md rounded-lg cursor-grab active:cursor-grabbing"
+    >
+      <p>{title}</p>
+    </div>
+  );
+};
+
+export default Card;

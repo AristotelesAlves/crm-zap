@@ -1,57 +1,60 @@
-"use client"
+'use client'
+import { DndContext, useDroppable, useDraggable, DragEndEvent } from '@dnd-kit/core';
 
-import React, { useState } from 'react';
-
-const Page: React.FC = () => {
-  const [mousePos, setMousePos] = useState<number>(0);  // Posição do mouse no eixo Y
-  const [minutes, setMinutes] = useState<number>(0);    // Minutos baseados na posição do mouse
-  const [mouseUpdate, setMouseUpdate] = useState<boolean>(false); // Controle de visibilidade da linha vermelha
-
-  // Função para lidar com o movimento do mouse dentro do container
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const containerHeight = e.currentTarget.clientHeight;  // Altura do container
-    const offsetY = e.clientY - e.currentTarget.getBoundingClientRect().top;  // Distância do topo do container até o mouse
-    const newPos = Math.min(offsetY, containerHeight);  // Limitar a posição do mouse ao tamanho do container
-
-    // Calcular os minutos (2px = 1 minuto)
-    const newMinutes = Math.floor(newPos / 2);  // Calcula os minutos com base nos pixels do mouse
-
-    setMouseUpdate(true);  // Mostrar a linha vermelha quando o mouse se mover
-    setMousePos(newPos);   // Atualiza a posição do mouse no eixo Y
-    setMinutes(newMinutes);  // Atualiza os minutos
-  };
-
-  // Função para esconder a linha vermelha quando o mouse sair da área
-  const handleMouseOut = () => {
-    setMouseUpdate(false); // Esconde a linha vermelha quando o mouse sai
-  };
+const Column = ({ id, children }: { id: string, children: React.ReactNode }) => {
+  const { setNodeRef } = useDroppable({
+    id,
+  });
 
   return (
-    <div className="w-full flex justify-center py-4">
-      <div
-        className="w-full h-[2880px] relative bg-gray-100 overflow-hidden"
-        onMouseMove={handleMouseMove}   // Evento de movimento do mouse
-        onMouseOut={handleMouseOut}     // Evento de mouse saindo do container
-      >
-        {/* Linha vermelha que segue o mouse no eixo Y */}
-        {mouseUpdate && (
-          <div
-            className="absolute left-0 w-full h-[2px] bg-red-500"
-            style={{ top: mousePos }}  // A linha segue a posição Y do mouse
-          >
-            <p className='absolute left-0 top-0 p-2 rounded-xl bg-red-500 text-white'>
-              {minutes} minutos
-            </p>
-          </div>
-        )}
-
-        {/* Exibindo os minutos calculados */}
-        <div className="absolute top-0 left-0 p-2 text-white bg-black rounded">
-          {minutes} minutos
-        </div>
-      </div>
+    <div ref={setNodeRef} style={{ padding: 20, border: '1px solid black', minHeight: '200px' }}>
+      <h3>{id}</h3>
+      {children}
     </div>
   );
 };
 
-export default Page;
+const DraggableItem = ({ id }: { id: string }) => {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={{ padding: 10, marginBottom: 10, backgroundColor: 'lightblue', cursor: 'pointer' }}
+    >
+      {id}
+    </div>
+  );
+};
+
+const App = () => {
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    // Identificar a coluna onde o item foi largado
+    if (over) {
+      console.log(`Item ${active.id} foi largado na coluna ${over.id}`);
+    }
+  };
+
+  return (
+    <DndContext onDragEnd={handleDragEnd}>
+      <div style={{ display: 'flex' }}>
+        <Column id="coluna1">
+          <DraggableItem id="item5 " />
+          <DraggableItem id="item2" />
+        </Column>
+        <Column id="coluna2">
+          <DraggableItem id="item3" />
+          <DraggableItem id="item4" />
+        </Column>
+      </div>
+    </DndContext>
+  );
+};
+
+export default App;

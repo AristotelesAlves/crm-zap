@@ -1,12 +1,18 @@
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import Card from "./Card";
 import { columInterface } from "./typeKanban";
+import { useDraggable } from "@dnd-kit/core";
 
 interface Iprops {
     colums: columInterface[];
 }
 
 export default function Colum({ colums }: Iprops) {
+
+    const {attributes, listeners, setNodeRef} = useDraggable({
+        id: 'unique-id',
+      });
+
     return (
         <div className="
             flex gap-2 h-full overflow-y-hidden overflow-x-auto
@@ -30,12 +36,13 @@ export default function Colum({ colums }: Iprops) {
                             <MagnifyingGlass size={25} />
                         </button>
                     </div>
-                    <div className={`
+                    <div ref={setNodeRef}
+                      className={`
                             flex flex-col w-full px-1 gap-2 h-full overflow-auto 
                             [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full 
                             [&::-webkit-scrollbar]:w-1  [&::-webkit-scrollbar-track]:bg-zinc-200 [&::-webkit-scrollbar-track]:bg-opacity-80
                              [&::-webkit-scrollbar-thumb]:bg-gray-300
-                        `}>
+                    `}>
                         {colum.cards.map((card, index) => (
                             <Card key={index} card={card} />
                         ))}

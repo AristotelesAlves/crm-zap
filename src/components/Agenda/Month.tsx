@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { timeDay, } from "./util/data";
+import { useEffect, useState } from "react";
+import { timeDay, Weeks, } from "./util/data";
 import Card from "./Card";
 
 interface IweekDay{
@@ -9,8 +9,8 @@ interface IweekDay{
 
 interface Iprops{
     openModal: () => void
+    date: Date
 }
-
 
 export default function Month(props: Iprops){
 
@@ -60,13 +60,43 @@ export default function Month(props: Iprops){
             }
         ]
     )
+    console.log({month: props})
+    function getCorrentWeekDay(){
+        const arrayWeekDayTemp = []
+        const week = props.date.getDay();
+        let correntDay = props.date
+        
+        
+        if(week > 0){
+            correntDay.setDate(correntDay.getDate() - week);
+        }
+        
+        for (let i = 0; i <= 6; i++) {
+            const currentDate = new Date(correntDay);
+            currentDate.setDate(correntDay.getDate() + i);
+            arrayWeekDayTemp.push({
+                day: currentDate.getDate(),
+                week: Weeks[currentDate.getDay()]
+            })
+        }
+        setWeekDays(arrayWeekDayTemp)
+    }
+
+    useEffect(() => {
+        setRedBarTime((new Date().getHours() * 120) + (new Date().getMinutes() * 2))
+        getCorrentWeekDay()
+    },[props.date])
 
     return (
-        <div>
-            <div className="flex flex-col">
-                <div className="h-14 border-b"></div>
+        <div className="flex w-full">
+            <div className="flex flex-col relative ">
+                <div className="h-14 border-b bg-white sticky top-0 flex items-end px-1">
+                    <span className="text-[10px] text-zinc-500">
+                        GTM-3
+                    </span>
+                </div>
                 {timeDay.map((hora) => (
-                    <div key={hora} className="h-[120px] w-10 border-b text-center flex  justify-center">
+                    <div key={hora} className="h-[120px] w-10 border-b text-center flex  justify-center bg-white">
                         {hora}
                     </div>
                 ))}

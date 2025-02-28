@@ -1,5 +1,5 @@
 'use client'
-import Agenda from "@/components/Agenda/Index";
+import Schedule from "@/components/Agenda/Index";
 import { months, weeksAbbreviation } from "@/components/Agenda/util/data";
 import { CaretDown, CaretUp } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, useState } from "react";
@@ -15,6 +15,7 @@ export default function Page() {
     const [numbersCalender, setNumbersCalender]= useState<InumberCalender[]>([])
     const [selectDate, setSelectDate] = useState(new Date())
     const [selectDay, setSelectDay] = useState(new Date())
+    const [formatSchedule, setFormatSchedule] = useState('semana')
     
     const categorys = ['Mensagem agendada','Visita','Entrar em contato','Promoção','Proposta']
 
@@ -35,7 +36,6 @@ export default function Page() {
                 week: weeksAbbreviation[newDate.getDay()],
                 date: newDate
             })
-
         }
 
         setNumbersCalender(runningDaysMonth)
@@ -72,11 +72,14 @@ export default function Page() {
                         <h1 className="text-2xl font-semibold">
                             Agenda
                         </h1>
-                        <select className="bg-white rounded-lg border outline-none p-1 " name="" id="">
-                            <option value="">Dia</option>
-                            <option value="">Semana</option>
-                            <option value="">Mês</option>
-
+                        <select 
+                          value={formatSchedule}
+                          onChange={(e) => setFormatSchedule(e.target.value)}
+                          className="bg-white rounded-lg border outline-none p-1 " 
+                        >
+                            <option value='dia'>Dia</option>
+                            <option value='semana'>Semana</option>
+                            <option value='mes'>Mês</option>
                         </select>
                     </div>
                     <div className="pt-1 pb-2 flex justify-between items-center">
@@ -110,7 +113,11 @@ export default function Page() {
                                 return (
                                     <button 
                                     key={index} 
-                                    onClick={() => setSelectDay(new Date(calender.date))}
+                                    onClick={() => {
+                                        calender.date.getMonth() != selectDate.getMonth() ? 
+                                        upOrDownDate(calender.date.getMonth() > selectDate.getMonth() ? true : false) : null
+                                        setSelectDay(new Date(calender.date))
+                                    }}
                                     className={`
                                         w-7 h-7 rounded-full flex items-center justify-center  
                                         ${correntDay && calender.date && 
@@ -159,7 +166,7 @@ export default function Page() {
                             [&::-webkit-scrollbar]:w-2  [&::-webkit-scrollbar-track]:bg-zinc-200 [&::-webkit-scrollbar-track]:bg-opacity-80
                         [&::-webkit-scrollbar-thumb]:bg-gray-300 w-full h-full overflow-auto rounded-xl border"
                 >
-                    <Agenda/>
+                    <Schedule date={selectDay} formatSchedule={formatSchedule}/>
                 </div>
             </div>
         </div>
